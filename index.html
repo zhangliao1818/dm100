@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><link rel="shortcut icon" href=/favicon.ico><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0"><meta name=theme-color content=#000000><title>合盈宝</title><style>html, body {
+      height: 100%;
+      width: 100%;
+      /*overflow: hidden;*/
+      -webkit-overflow-scrolling:touch;/*解决浏览器上下滚动露出底色问题（滚动回弹 or 橡皮筋效果）*/
+    }
+    #root {
+      display: flex;
+      height: 100%;
+      /*overflow: auto;*/
+    }
+    .root { height: 100%; overflow: hidden; }
+    input:focus, textarea:focus {
+      outline: none;
+    }
+    .text {
+      color: #73A2FC;; font-size: 14px; top: 15px;right: 15px; position: fixed;border: 1px solid #CCCCCC;border-radius: 30px;padding: 4px}
+    #reload {
+      display: flex;
+      height:100vh;
+      width: 100%;
+      left: 0;
+      top: 0;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+    }</style><script>/**
+       * iOS-APP检查更新
+       * @param reload
+       */
+      function checkApp(reload) {
+          if (!navigator.standalone) {
+              return;
+          }
+          (typeof fetch != 'undefined') && fetch('/').then(result => {
+              let lastTag = localStorage.getItem("etag");
+              let etag = result.headers.get("ETag");
+              // toast.showToast(etag + '======' + lastTag)
+              if (lastTag && lastTag != etag) {
+                  reload && location.reload();
+              }
+              localStorage.setItem("etag", etag);
+          });
+      }
+
+      window.onload = function() {
+          checkApp(false);
+      };
+
+      document.onvisibilitychange = function (){
+          if(!document.hidden) {
+              checkApp(true);
+          }
+      };
+      function reloadApp() {
+        navigator.standalone && location.reload();
+      }</script><script src=/thirdpaty/react.production.min.js></script><script src=/thirdpaty/react-dom.production.min.js></script><script src=/thirdpaty/echarts.min.js></script><script src=/thirdpaty/babel.min.js></script><link href=/index.38c6d29d.css rel=stylesheet></head><body><noscript>您的浏览器不支持JAVASCRIPT.</noscript><div id=reload onclick=reloadApp()><div><img src=noload.png style="width: 100%"><h1 class=text>点击进入</h1></div></div><div id=root></div><script>if (!navigator.standalone) {
+      document.getElementById("reload").style.display = "none";
+  } else {
+      document.getElementById('root').onclick = function(e) {
+          if(e.target.tagName.toUpperCase() === 'INPUT') {
+              let time = parseInt(localStorage.getItem('time-home') || 0);
+              let now = new Date().valueOf();
+              if (now - time > 600000) {
+                  localStorage.setItem("time-home", now);
+                  toast.showToast('请使用苹果自带输输入法进行输入')
+              }
+
+          }
+      }
+  }</script><script type=text/javascript src=/index.cc987a2806183cc319f7.js></script><script type=text/javascript src=/vendor.cc987a2806183cc319f7.js></script></body></html>
